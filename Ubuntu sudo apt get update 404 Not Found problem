@@ -1,0 +1,80 @@
+Ubuntu sudo apt get update 404 Not Found problem
+
+ubuntu 20.04.3 LTS
+
+Hit:1 http://packages.microsoft.com/repos/code stable InRelease                                                                   
+Hit:2 http://archive.canonical.com/ubuntu focal InRelease                                                                         
+Hit:3 http://ppa.launchpad.net/deadsnakes/ppa/ubuntu focal InRelease                                                              
+Hit:4 http://dl.google.com/linux/chrome/deb stable InRelease                                                                      
+Ign:5 http://old-releases.ubuntu.com/ubuntu focal InRelease                                                                       
+Ign:6 http://old-releases.ubuntu.com/ubuntu focal-updates InRelease                                                               
+Hit:7 http://ppa.launchpad.net/kicad/kicad-5.1-releases/ubuntu focal InRelease                                                    
+Hit:8 https://deb.opera.com/opera-stable stable InRelease                                                                         
+Hit:9 https://packages.microsoft.com/repos/vscode stable InRelease                                                                
+Ign:10 http://old-releases.ubuntu.com/ubuntu focal-backports InRelease                                                            
+Ign:11 http://ppa.launchpad.net/team-gcc-arm-embedded/ppa/ubuntu focal InRelease                                           
+Ign:12 http://old-releases.ubuntu.com/ubuntu focal-security InRelease                                                      
+Err:14 http://old-releases.ubuntu.com/ubuntu focal Release                                                                        
+  404  Not Found [IP: 91.189.88.247 80]
+Err:15 http://ppa.launchpad.net/team-gcc-arm-embedded/ppa/ubuntu focal Release                                                    
+  404  Not Found [IP: 91.189.95.85 80]
+Err:16 http://old-releases.ubuntu.com/ubuntu focal-updates Release                                                           
+  404  Not Found [IP: 91.189.88.247 80]
+Hit:17 https://linux-clients.seafile.com/seafile-deb/focal stable InRelease                
+Err:18 http://old-releases.ubuntu.com/ubuntu focal-backports Release 
+  404  Not Found [IP: 91.189.88.247 80]
+Err:19 http://old-releases.ubuntu.com/ubuntu focal-security Release  
+  404  Not Found [IP: 91.189.88.247 80]
+Ign:13 https://launchpad.net/~terry.guo/+archive/gcc-arm-embedded focal InRelease
+Err:20 https://launchpad.net/~terry.guo/+archive/gcc-arm-embedded focal Release
+  404  Not Found [IP: 91.189.89.222 443]
+Reading package lists... Done
+
+
+
+
+
+
+
+
+Most of the repositories and PPAs in your sources.list are no longer available and are throwing errors. I'd recommend restoring the default repositories.
+
+
+
+SOLUTION 1
+1. First, restore the default focal repositories using these commands:
+mkdir ~/solution
+cd ~/solution/
+
+cat << EOF > ~/solution/sources.list
+deb http://archive.ubuntu.com/ubuntu/ focal main restricted universe multiverse
+deb-src http://archive.ubuntu.com/ubuntu/ focal main restricted universe multiverse
+
+deb http://archive.ubuntu.com/ubuntu/ focal-updates main restricted universe multiverse
+deb-src http://archive.ubuntu.com/ubuntu/ focal-updates main restricted universe multiverse
+
+deb http://archive.ubuntu.com/ubuntu/ focal-security main restricted universe multiverse
+deb-src http://archive.ubuntu.com/ubuntu/ focal-security main restricted universe multiverse
+
+deb http://archive.ubuntu.com/ubuntu/ focal-backports main restricted universe multiverse
+deb-src http://archive.ubuntu.com/ubuntu/ focal-backports main restricted universe multiverse
+
+deb http://archive.canonical.com/ubuntu focal partner
+deb-src http://archive.canonical.com/ubuntu focal partner
+EOF
+
+sudo rm /etc/apt/sources.list
+sudo cp ~/solution/sources.list /etc/apt/sources.list
+
+2.Remove all the PPAs in your system:
+
+sudo mv /etc/apt/sources.list.d/* ~/solution
+
+3.update the repositories:
+
+sudo apt update
+
+Finding No errors.
+
+
+
